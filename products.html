@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get all products</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        #productsList {
+            display: flex;
+        }
+
+        #productsList>div {
+            border: 1px solid black;
+            width: 220px;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 10px;
+            font-family: sans-serif;
+        }
+
+        #productsList>div:hover {
+            box-shadow: 0px 0px 10px black;
+        }
+
+        #productsList>div>p>span:nth-child(2) {
+            font-size: 32px;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="./index.html">Home</a>
+    <a href="./products.html"> All Products</a>
+
+    <h1>Ali Express</h1>
+
+    <div id="productsList">
+
+
+        <!-- <div>
+            <img src="./images/air_pods.jpg" alt="Air Pods">
+            <p>New Original Apple AirPods 2nd Wireless Headphone Bluetooth Earphone Tws Gaming Sports Headphones for Air
+                Smartphones IPhone</p>
+            <p><span>PKR</span> <span>4000</span></p>
+            <p><span>2</span> items sold</p>
+            <p>Free Shipping</p>
+            <p>SysBorg estore</p>
+        </div> -->
+
+    </div>
+
+    <script>
+        async function getAllProducts() {
+            try {
+                const response = await axios.get('http://localhost:3000/products');
+                console.log(response.data.data);
+
+                let productsList = document.querySelector("#productsList");
+
+                // iterate
+                response.data.data.map(eachProduct => {
+                    productsList.innerHTML += `
+                <div>
+                    <img src="./images/air_pods.jpg" alt="Air Pods">
+                    <p>${eachProduct.productName}</p>
+                    <p>
+                        <span>${eachProduct.currencyCode}</span>
+                        <span>${eachProduct.productPrice}</span>
+                    </p>
+                    <p><span>${eachProduct.numberOfSale || 0}</span> sold</p>
+                    <p>${(eachProduct.isFreeShipping) ? "Free shipping" : ""}</p>
+                    <p>${eachProduct.shopName}</p>
+                </div>
+                `;
+                });
+
+
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        getAllProducts();
+    </script>
+
+</body>
+
+</html>

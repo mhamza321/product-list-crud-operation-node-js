@@ -5,30 +5,44 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+    <title>Add a Product</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
-    <h1>Sign Up</h1>
 
-    <form action="" onsubmit="signUp(); return false;">
-        <label for="name">Name</label>
-        <input type="text" id="name"> <br>
+    <a href="./index.html">Home</a>
+    <a href="./products.html"> All Products</a>
 
-        <label for="email">Email</label>
-        <input type="email" id="email"> <br>
+    <h1>Add a Product</h1>
 
-        <label for="city">City</label>
-        <input type="text" id="city"> <br>
+    <form action="" onsubmit="createProduct(); return false;">
+        <label for="prdocutName">Product Name</label>
+        <input type="text" id="prdocutName"> <br>
 
-        <label for="password">Password</label>
-        <input type="password" id="password"> <br>
+        <label for="productPrice">Product Price</label>
+        <input type="number" id="productPrice"> <br>
 
-        <label for="c_password">Confirm Password</label>
-        <input type="password" id="c_password"> <br>
+        <label for="currencyCode">Currency Code</label>
+        <input type="text" id="currencyCode"> <br>
 
-        <input type="submit" value="Sign Up">
+        <label for="numberOfSale">Number of Sale</label>
+        <input type="number" id="numberOfSale"> <br>
+
+        <label for="productRating">Product Rating</label>
+        <input type="number" id="productRating" min="0" max="5"> <br>
+
+        <label for="isFreeShipping">Free Shipping</label>
+        <select name="isFreeShipping" id="isFreeShipping">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select>
+        <br>
+
+        <label for="shopName">Shop Name</label>
+        <input type="text" id="shopName"> <br>
+
+        <input type="submit" value="Add a Product">
     </form>
     <br>
     <p id="message"></p>
@@ -36,24 +50,28 @@
     <br> <br> <br>
     <p>Already have an accout? Click <a href="signin.html"> here </a> to login</p>
     <script>
-        function signUp() {
-            let name = document.querySelector("#name").value;
-            let email = document.querySelector("#email").value;
-            let city = document.querySelector("#city").value;
-            let password = document.querySelector("#password").value;
-            let c_password = document.querySelector("#c_password").value;
+        let baseUrl = 'http://localhost:3000';
 
-            if (password !== c_password) {
-                document.querySelector("#message").innerHTML = "Your password and confirm pasword does not match.";
-            }
+        function createProduct() {
+
+            let p_name = document.querySelector("#prdocutName").value;
+            let p_price = document.querySelector("#productPrice").value;
+            let p_currency_code = document.querySelector("#currencyCode").value;
+            let p_no_of_sale = document.querySelector("#numberOfSale").value;
+            let p_rating = document.querySelector("#productRating").value;
+            let p_free_shipping = document.querySelector("#isFreeShipping").value;
+            let p_shopName = document.querySelector("#shopName").value;
+
+
             // now we will send a post request to our server.
-            // http://localhost:3000/signup
-            axios.post('https://login-signup-with-mongo-db.herokuapp.com/signup', {
-                "name": name,
-                "email": email,
-                "city": city,
-                "password": password,
-                "c_password": c_password
+            axios.post(`${baseUrl}/product`, {
+                p_name,
+                p_price,
+                p_currency_code,
+                p_no_of_sale,
+                p_rating,
+                p_free_shipping,
+                p_shopName
             })
                 .then(function (response) {
 
